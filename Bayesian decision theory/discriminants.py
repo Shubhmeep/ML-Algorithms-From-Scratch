@@ -64,8 +64,10 @@ class MultivariateGaussian(Discriminant):
         mu, sigma, prior = self.params['mu'], self.params['sigma'], self.params['prior']
         '''Your code here'''
 
-        d = sigma.shape[0]
-        g_x = np.log(prior) - 0.5 * np.log((2 * np.pi)**d * np.linalg.det(sigma)) - 0.5 * np.dot((x - mu).T, np.dot(np.linalg.inv(sigma), (x - mu)))
+        d = x.shape[0]
+        sigma_inv = np.linalg.inv(sigma)
+        det_sigma = np.linalg.det(sigma)
+        g_x = (np.log(prior) - 0.5 * d * np.log(2 * np.pi) - 0.5 * np.log(det_sigma) - 0.5 * np.dot((x - mu).T, np.dot(sigma_inv, (x - mu))))
         return g_x
 
 
